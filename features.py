@@ -4,7 +4,7 @@ import tensorflow as tf
 # from tensorflow.keras.preprocessing.image import img_to_array, load_img
 # from tensorflow.keras.utils import array_to_img
 
-model = tf.keras.models.load_model('./saved_models/deepfake.keras')
+model = tf.keras.models.load_model('./models/deepfake.keras')
 
 def crop_face(img_arr):
     img_arr = cv2.cvtColor(img_arr,cv2.COLOR_BGR2RGB)
