@@ -1,0 +1,6 @@
+tensorflow-cpu
+opencv-python
+pillow
+uvicorn
+gunicorn
+fastapi
