@@ -124,6 +124,8 @@ const App = () => {
 
 	return (
 		<div className="min-h-screen min-w-full flex flex-col gap-3 items-center justify-center">
+
+			<div className="text-2xl sm:text-4xl text-center absolute top-10 inset-x-0">Deepfake Detection</div>
 			
 			{!videoUrl && !imageUrl ? <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
 				<div className="size-52">
@@ -153,7 +155,7 @@ const App = () => {
 			</div>}
 			
 			{videoUrl && (
-				<div className="w-11/12 sm:w-5/6 md:w-4/5 lg:w-3/5 xl:w-1/2">
+				<div className="w-11/12 sm:w-5/6 md:w-4/5 lg:w-3/5 xl:w-1/2 mt-32">
 					<video controls className="rounded-2xl">label
 						<source src={videoUrl} type="video/mp4" />
 						Your browser does not support the video tag.
@@ -162,7 +164,7 @@ const App = () => {
 			)}
 
 			{imageUrl && (
-				<div className="w-11/12 sm:w-5/6 md:w-4/5 lg:w-3/5 xl:w-1/2">
+				<div className="w-11/12 sm:w-5/6 md:w-4/5 lg:w-3/5 xl:w-1/2 mt-32">
 					<img src={imageUrl} alt="" className="rounded-2xl"/>
 				</div>
 			)}
@@ -177,7 +179,7 @@ const App = () => {
 
 				{videoUrl && !result ? <button onClick={predictVideo} className="rounded-xl p-3 border-2 border-black/70 border-dashed hover:scale-105 duration-150">Predict Video!</button> : null}
 
-				{imageUrl && !result ? <button onClick={predictVideo} className="rounded-xl p-3 border-2 border-black/70 border-dashed hover:scale-105 duration-150">Predict image!</button> : null}
+				{imageUrl && !result ? <button onClick={predictImage} className="rounded-xl p-3 border-2 border-black/70 border-dashed hover:scale-105 duration-150">Predict image!</button> : null}
 			</div>
 
 			
