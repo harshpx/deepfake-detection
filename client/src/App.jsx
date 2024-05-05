@@ -1,4 +1,7 @@
 import { useState } from "react"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 import { BsUpload } from "react-icons/bs";
 import { CiImageOn } from "react-icons/ci";
@@ -18,7 +21,7 @@ const App = () => {
 	const [result,setResult] = useState('')
 
 	const [loading,setLoading] = useState(false)
-	const [error,setError] = useState(false)
+	// const [error,setError] = useState(false)
 
 	const [isHover,hoverRef] = useHover();
 	const [isHover2,hoverRef2] = useHover();
@@ -50,7 +53,6 @@ const App = () => {
 
 	const predictVideo = async () => {
 		try {
-			setError(false)
 			setLoading(true)
 
 			const formData = new FormData()
@@ -67,8 +69,10 @@ const App = () => {
 			setResult(data)
 			setLoading(false)
 
+			toast.success("Predicted Successfully")
+
 		} catch (error) {
-			setError(true)
+			toast.error("API Error!")
 			setLoading(false)
 			console.log(error)
 		}
@@ -76,7 +80,6 @@ const App = () => {
 
 	const predictImage = async () => {
 		try {
-			setError(false)
 			setLoading(true)
 
 			const formData = new FormData()
@@ -93,8 +96,10 @@ const App = () => {
 			setResult(data)
 			setLoading(false)
 
+			toast.success("Predicted Successfully")
+
 		} catch (error) {
-			setError(true)
+			toast.error("API Error!")
 			setLoading(false)
 			console.log(error)
 		}
@@ -107,8 +112,70 @@ const App = () => {
 		setResult('')
 	}
 
-	if(loading) {
-		return (
+	return (
+		<div>
+			{!loading ? 
+			<div className="min-h-screen min-w-full flex flex-col gap-3 items-center justify-center p-4 bg-[#EBEEF5]">
+
+				<div className="text-2xl sm:text-4xl text-center absolute top-10 inset-x-0">Deepfake Detection</div>
+
+				{!videoUrl && !imageUrl ? <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
+					<div className="size-52">
+						<label ref={hoverRef} className="flex flex-col-reverse items-center justify-center gap-3 size-52 rounded-xl p-3 border-2 border-black/70 border-dashed cursor-pointer hover:scale-105 duration-150">
+							<div className="text-center text-3xl">Upload Video</div>
+							<div>
+								{!isHover ? <CiVideoOn size={70}/> : <BsUpload size={70}/>}
+							</div>
+							<input type="file" accept="video/*" onChange={handleVideoUpload} className="hidden"/>
+						</label>
+					</div>
+
+					<div className="size-52">
+						<label ref={hoverRef2} className="flex flex-col-reverse items-center justify-center gap-3 size-52 rounded-xl p-3 border-2 border-black/70 border-dashed cursor-pointer hover:scale-105 duration-150">
+							<div className="text-center text-3xl">Upload Image</div>
+							<div>
+								{!isHover2 ? <CiImageOn size={70}/> : <BsUpload size={70}/>}
+								{/* <MdOutlineCloudUpload size={70}/> */}
+							</div>
+							<input type="file" accept="image/*" onChange={handleImageUpload} className="hidden"/>
+						</label>
+					</div>
+				</div> : 
+				<div className="hidden">
+					<div ref={hoverRef}/>
+					<div ref={hoverRef2}/>
+				</div>}
+
+				{videoUrl && (
+					<div className="w-11/12 sm:w-5/6 md:w-4/5 lg:w-3/5 xl:w-1/2 mt-32 flex items-center justify-center">
+						<video controls className="rounded-2xl">label
+							<source src={videoUrl} type="video/mp4" />
+							Your browser does not support the video tag.
+						</video>
+					</div>
+				)}
+
+				{imageUrl && (
+					<div className="w-11/12 sm:w-5/6 md:w-4/5 lg:w-3/5 xl:w-1/2 mt-32 flex items-center justify-center">
+						<img src={imageUrl} alt="" className="rounded-2xl"/>
+					</div>
+				)}
+
+				{result && (
+					result.result==0 ? <div className="text-2xl flex items-center gap-2">Prediction Result: <span className="font-bold text-green-500">Real</span></div> : 
+					(result.result==1 ? <div className="text-2xl flex items-center gap-2">Prediction Result: <span className="font-bold text-red-500">Fake</span></div> : 
+					<div className="text-2xl flex items-center gap-2">Prediction Result: <span className="font-bold text-neutral-700">No face Detected</span></div>)
+				)}
+
+				<div className="flex items-center justify-center gap-2">
+					{videoUrl || imageUrl ? <button onClick={reset} className="rounded-xl p-3 border-2 border-black/70 border-dashed hover:scale-105 duration-150">Try another</button> : null}
+
+					{videoUrl && !result ? <button onClick={predictVideo} className="rounded-xl p-3 border-2 border-black/70 border-dashed hover:scale-105 duration-150">Predict Video!</button> : null}
+
+					{imageUrl && !result ? <button onClick={predictImage} className="rounded-xl p-3 border-2 border-black/70 border-dashed hover:scale-105 duration-150">Predict image!</button> : null}
+				</div>
+
+			</div> : 
 			<div className="min-h-screen min-w-full flex items-center justify-center bg-[#EBEEF5]">
 				<DNA
 					visible={true}
@@ -118,73 +185,8 @@ const App = () => {
 					wrapperStyle={{}}
 					wrapperClass="dna-wrapper"
 				/>
-			</div>
-		)
-	}
-
-	return (
-		<div className="min-h-screen min-w-full flex flex-col gap-3 items-center justify-center p-4 bg-[#EBEEF5]">
-
-			<div className="text-2xl sm:text-4xl text-center absolute top-10 inset-x-0">Deepfake Detection</div>
-			
-			{!videoUrl && !imageUrl ? <div className="flex flex-col sm:flex-row items-center justify-center gap-5">
-				<div className="size-52">
-					<label ref={hoverRef} className="flex flex-col-reverse items-center justify-center gap-3 size-52 rounded-xl p-3 border-2 border-black/70 border-dashed cursor-pointer hover:scale-105 duration-150">
-						<div className="text-center text-3xl">Upload Video</div>
-						<div>
-							{!isHover ? <CiVideoOn size={70}/> : <BsUpload size={70}/>}
-						</div>
-						<input type="file" accept="video/*" onChange={handleVideoUpload} className="hidden"/>
-					</label>
-				</div>
-
-				<div className="size-52">
-					<label ref={hoverRef2} className="flex flex-col-reverse items-center justify-center gap-3 size-52 rounded-xl p-3 border-2 border-black/70 border-dashed cursor-pointer hover:scale-105 duration-150">
-						<div className="text-center text-3xl">Upload Image</div>
-						<div>
-							{!isHover2 ? <CiImageOn size={70}/> : <BsUpload size={70}/>}
-							{/* <MdOutlineCloudUpload size={70}/> */}
-						</div>
-						<input type="file" accept="image/*" onChange={handleImageUpload} className="hidden"/>
-					</label>
-				</div>
-			</div> : 
-			<div className="hidden">
-				<div ref={hoverRef}/>
-				<div ref={hoverRef2}/>
 			</div>}
-			
-			{videoUrl && (
-				<div className="w-11/12 sm:w-5/6 md:w-4/5 lg:w-3/5 xl:w-1/2 mt-32 flex items-center justify-center">
-					<video controls className="rounded-2xl">label
-						<source src={videoUrl} type="video/mp4" />
-						Your browser does not support the video tag.
-					</video>
-				</div>
-			)}
-
-			{imageUrl && (
-				<div className="w-11/12 sm:w-5/6 md:w-4/5 lg:w-3/5 xl:w-1/2 mt-32 flex items-center justify-center">
-					<img src={imageUrl} alt="" className="rounded-2xl"/>
-				</div>
-			)}
-
-			{result && (
-				result.result==0 ? <div className="text-2xl flex items-center gap-2">Prediction Result: <span className="font-bold text-green-500">Real</span></div> : 
-				(result.result==1 ? <div className="text-2xl flex items-center gap-2">Prediction Result: <span className="font-bold text-red-500">Fake</span></div> : 
-				<div className="text-2xl flex items-center gap-2">Prediction Result: <span className="font-bold text-neutral-700">No face Detected</span></div>)
-			)}
-
-			<div className="flex items-center justify-center gap-2">
-				{videoUrl || imageUrl ? <button onClick={reset} className="rounded-xl p-3 border-2 border-black/70 border-dashed hover:scale-105 duration-150">Try another</button> : null}
-
-				{videoUrl && !result ? <button onClick={predictVideo} className="rounded-xl p-3 border-2 border-black/70 border-dashed hover:scale-105 duration-150">Predict Video!</button> : null}
-
-				{imageUrl && !result ? <button onClick={predictImage} className="rounded-xl p-3 border-2 border-black/70 border-dashed hover:scale-105 duration-150">Predict image!</button> : null}
-			</div>
-
-			
-			
+			<ToastContainer/>
 		</div>
 	)
 }
