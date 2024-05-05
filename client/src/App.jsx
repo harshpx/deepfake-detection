@@ -111,12 +111,12 @@ const App = () => {
 		return (
 			<div className="min-h-screen min-w-full flex items-center justify-center">
 				<DNA
-				visible={true}
-				height="200"
-				width="200"
-				ariaLabel="dna-loading"
-				wrapperStyle={{}}
-				wrapperClass="dna-wrapper"
+					visible={true}
+					height="200"
+					width="200"
+					ariaLabel="dna-loading"
+					wrapperStyle={{}}
+					wrapperClass="dna-wrapper"
 				/>
 			</div>
 		)
