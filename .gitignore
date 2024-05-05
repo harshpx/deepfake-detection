@@ -2,3 +2,5 @@ venv
 client/node_modules
 __pycache__
 Dataset
+*.mp4
+*.jpg
