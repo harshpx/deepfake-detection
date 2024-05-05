@@ -109,7 +109,7 @@ const App = () => {
 
 	if(loading) {
 		return (
-			<div className="min-h-screen min-w-full flex items-center justify-center">
+			<div className="min-h-screen min-w-full flex items-center justify-center bg-[#EBEEF5]">
 				<DNA
 					visible={true}
 					height="200"
@@ -123,7 +123,7 @@ const App = () => {
 	}
 
 	return (
-		<div className="min-h-screen min-w-full flex flex-col gap-3 items-center justify-center">
+		<div className="min-h-screen min-w-full flex flex-col gap-3 items-center justify-center p-4 bg-[#EBEEF5]">
 
 			<div className="text-2xl sm:text-4xl text-center absolute top-10 inset-x-0">Deepfake Detection</div>
 			
@@ -155,7 +155,7 @@ const App = () => {
 			</div>}
 			
 			{videoUrl && (
-				<div className="w-11/12 sm:w-5/6 md:w-4/5 lg:w-3/5 xl:w-1/2 mt-32">
+				<div className="w-11/12 sm:w-5/6 md:w-4/5 lg:w-3/5 xl:w-1/2 mt-32 flex items-center justify-center">
 					<video controls className="rounded-2xl">label
 						<source src={videoUrl} type="video/mp4" />
 						Your browser does not support the video tag.
@@ -164,14 +164,15 @@ const App = () => {
 			)}
 
 			{imageUrl && (
-				<div className="w-11/12 sm:w-5/6 md:w-4/5 lg:w-3/5 xl:w-1/2 mt-32">
+				<div className="w-11/12 sm:w-5/6 md:w-4/5 lg:w-3/5 xl:w-1/2 mt-32 flex items-center justify-center">
 					<img src={imageUrl} alt="" className="rounded-2xl"/>
 				</div>
 			)}
 
 			{result && (
-				result.result==0 ? <div>Prediction Result: Real</div> : 
-				(result.result==1 ? <div>Prediction Result: Fake</div> : <div>Prediction Result: No face Detected</div>)
+				result.result==0 ? <div className="text-2xl flex items-center gap-2">Prediction Result: <span className="font-bold text-green-500">Real</span></div> : 
+				(result.result==1 ? <div className="text-2xl flex items-center gap-2">Prediction Result: <span className="font-bold text-red-500">Fake</span></div> : 
+				<div className="text-2xl flex items-center gap-2">Prediction Result: <span className="font-bold text-neutral-700">No face Detected</span></div>)
 			)}
 
 			<div className="flex items-center justify-center gap-2">
