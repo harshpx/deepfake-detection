@@ -18,13 +18,16 @@ cd client
 npm install
 
 # Now all the required dependencies are installed!
-# Go to parent directory (where app.py is located) and run the FastAPI server using:
+# Go to parent directory (where app.py is located)
+# and run the FastAPI server using:
 uvicorn app:app --host 0.0.0.0 --port 8000 --reload
 
-# Now our FastAPI server must be running on localhost:8000 (make sure that your post 8000 is free before running previous command)
+# Now our FastAPI server must be running on localhost:8000
+# (make sure that your post 8000 is free before running previous command)
 
-# create another terminal and go to client directory (where package.json is located) and run the React App using:
+# create another terminal and go to client directory (where package.json is located)# and run the React App using:
 npm run dev
 
-# Now our React App must be running on localhost:5173 (or on any port >5173 if it is not free)
+# Now our React App must be running on localhost:5173
+# (or on any port >5173 if it is not free)
 ```
