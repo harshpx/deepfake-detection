@@ -65,7 +65,7 @@ const App = () => {
 
 			const res = await fetch(`${BASEURL}/predictVideo`,postHeader)
 			const data = await res.json()
-
+			console.log(data);
 			setResult(data)
 			setLoading(false)
 
@@ -176,7 +176,7 @@ const App = () => {
 				</div>
 
 			</div> : 
-			<div className="min-h-screen min-w-full flex items-center justify-center bg-[#EBEEF5]">
+			<div className="min-h-screen min-w-full flex flex-col items-center justify-center bg-[#EBEEF5]">
 				<DNA
 					visible={true}
 					height="200"
@@ -185,6 +185,7 @@ const App = () => {
 					wrapperStyle={{}}
 					wrapperClass="dna-wrapper"
 				/>
+				<h1>Be patient, It may take a while...</h1>
 			</div>}
 			<ToastContainer/>
 		</div>

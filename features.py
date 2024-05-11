@@ -41,7 +41,6 @@ def video_classifier(video_path):
     if not cap.isOpened():
         print("Error: Unable to open video")
 
-    input = []
     count = 0
     noFrame = 0
     fakeFrame = 0
@@ -60,31 +59,21 @@ def video_classifier(video_path):
         face = crop_face(frame)
 
         if not isinstance(face,np.ndarray):
-            noFrame+=1
             continue;
+    
+        count+=1
+        data = np.expand_dims(face,axis=0)
+        pred = np.argmax(model.predict(data))
+        print(pred)
 
-        input.append(face)
+        if pred==1:
+            return 1
 
     cap.release()
 
-    if len(input)==0 :
+    if count==0:
         return -1
     
-    input = np.array(input)
-    pred = model.predict(input)
-    results = np.array([np.argmax(p) for p in pred])
-    for p in results:
-        if p==0:
-            realFrame+=1
-        else:
-            fakeFrame+=1
-    
-    if(noFrame > 0.75*(fakeFrame + realFrame)):
-        return -1
-    elif(realFrame > fakeFrame):
-        return 0
-    
-    return 1
-
+    return 0
 
 
